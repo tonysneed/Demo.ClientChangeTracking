@@ -11,7 +11,6 @@ namespace Demo.ClientChangeTracking
         {
             // Arrange
             var model = new Person();
-            var changeTracker = new ChangeTrackingCollection<Person>(model);
 
             // Act
             model.FirstName = "George";
@@ -25,9 +24,8 @@ namespace Demo.ClientChangeTracking
         {
             // Arrange
             var model = new Person();
-            var changeTracker = new ChangeTrackingCollection<Person>(model);
             bool entityChanged = false;
-            changeTracker.EntityChanged += (sender, args) => entityChanged = true;
+            model.ChangeTracker.EntityChanged += (sender, args) => entityChanged = true;
 
             // Act
             model.FirstName = "George";

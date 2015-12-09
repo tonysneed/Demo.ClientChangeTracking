@@ -1,9 +1,12 @@
-﻿using TrackableEntities.Client;
-
-namespace Demo.ClientChangeTracking
+﻿namespace Demo.ClientChangeTracking
 {
-    public class Person : EntityBase
+    public class Person : ExtendedEntityBase<Person>
     {
+        public Person()
+        {
+            StartTracking(this);
+        }
+
         private string _firstName;
 
         public string FirstName
