@@ -72,7 +72,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangeTrackingTests.cs" />
+    <Compile Include="Child.cs" />
     <Compile Include="ExtendedEntityBase.cs" />
+    <Compile Include="Location.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

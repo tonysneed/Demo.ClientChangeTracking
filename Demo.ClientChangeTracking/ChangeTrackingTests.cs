@@ -11,6 +11,7 @@ namespace Demo.ClientChangeTracking
         {
             // Arrange
             var model = new Person();
+            model.StartTracking();
 
             // Act
             model.FirstName = "George";
@@ -20,10 +21,42 @@ namespace Demo.ClientChangeTracking
         }
 
         [Fact]
+        public void Setting_Reference_Property_Should_Mark_Reference_As_Modified()
+        {
+            // Arrange
+            var model = new Person();
+            model.Location = new Location {City = "London"};
+            model.StartTracking();
+
+            // Act
+            model.Location.City = "Rome";
+
+            // Assert
+            Assert.Equal(TrackingState.Modified, model.Location.TrackingState);
+        }
+
+        [Fact]
+        public void Setting_Child_Property_Should_Mark_Child_As_Modified()
+        {
+            // Arrange
+            var model = new Person();
+            model.Children.Add(new Child { Age = 5 });
+            model.StartTracking();
+
+            // Act
+            model.Children[0].Age++;
+
+            // Assert
+            Assert.Equal(TrackingState.Modified, model.Children[0].TrackingState);
+        }
+
+        [Fact]
         public void Setting_Model_Property_Should_Mark_Fire_EntityChanged_Event()
         {
             // Arrange
             var model = new Person();
+            model.StartTracking();
+
             bool entityChanged = false;
             model.ChangeTracker.EntityChanged += (sender, args) => entityChanged = true;
 

@@ -6,11 +6,13 @@ namespace Demo.ClientChangeTracking
 {
     public class ExtendedEntityBase<TEntity> : EntityBase where TEntity : class, ITrackable, INotifyPropertyChanged
     {
+        protected TEntity Entity { get; set; }
+
         public ChangeTrackingCollection<TEntity> ChangeTracker { get; set; }
 
-        protected void StartTracking(TEntity entity)
+        public void StartTracking()
         {
-            ChangeTracker = new ChangeTrackingCollection<TEntity>(entity);
+            ChangeTracker = new ChangeTrackingCollection<TEntity>(Entity);
         }
     }
 }
