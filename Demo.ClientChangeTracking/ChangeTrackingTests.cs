@@ -19,5 +19,21 @@ namespace Demo.ClientChangeTracking
             // Assert
             Assert.Equal(TrackingState.Modified, model.TrackingState);
         }
+
+        [Fact]
+        public void Setting_Model_Property_Should_Mark_Fire_EntityChanged_Event()
+        {
+            // Arrange
+            var model = new Person();
+            var changeTracker = new ChangeTrackingCollection<Person>(model);
+            bool entityChanged = false;
+            changeTracker.EntityChanged += (sender, args) => entityChanged = true;
+
+            // Act
+            model.FirstName = "George";
+
+            // Assert
+            Assert.True(entityChanged);
+        }
     }
 }
