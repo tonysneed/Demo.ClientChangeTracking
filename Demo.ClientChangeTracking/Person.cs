@@ -7,6 +7,7 @@ namespace Demo.ClientChangeTracking
         public Person()
         {
             Entity = this;
+            RelatedChangeTrackers.Add(Children);
         }
 
         private string _firstName;
@@ -30,10 +31,13 @@ namespace Demo.ClientChangeTracking
                 _location = value;
                 LocationChangeTracker = _location == null ? null
                     : new ChangeTrackingCollection<Location>(_location);
+                if (LocationChangeTracker != null)
+                    RelatedChangeTrackers.Add(LocationChangeTracker);
                 NotifyPropertyChanged();
             }
         }
 
-        public ChangeTrackingCollection<Child> Children { get; set; } = new ChangeTrackingCollection<Child>();
+        public ChangeTrackingCollection<Child> Children { get; set; } 
+            = new ChangeTrackingCollection<Child>();
     }
 }

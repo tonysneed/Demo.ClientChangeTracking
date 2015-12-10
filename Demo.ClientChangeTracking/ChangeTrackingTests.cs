@@ -66,5 +66,35 @@ namespace Demo.ClientChangeTracking
             // Assert
             Assert.True(entityChanged);
         }
+
+        [Fact]
+        public void Setting_Reference_Property_Should_Mark_Parent_As_Modified()
+        {
+            // Arrange
+            var model = new Person();
+            model.Location = new Location { City = "London" };
+            model.StartTracking();
+
+            // Act
+            model.Location.City = "Rome";
+
+            // Assert
+            Assert.Equal(TrackingState.Modified, model.TrackingState);
+        }
+
+        [Fact]
+        public void Setting_Child_Property_Should_Mark_Parent_As_Modified()
+        {
+            // Arrange
+            var model = new Person();
+            model.Children.Add(new Child { Age = 5 });
+            model.StartTracking();
+
+            // Act
+            model.Children[0].Age++;
+
+            // Assert
+            Assert.Equal(TrackingState.Modified, model.TrackingState);
+        }
     }
 }
