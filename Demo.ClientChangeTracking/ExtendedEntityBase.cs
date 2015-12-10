@@ -8,7 +8,8 @@ namespace Demo.ClientChangeTracking
 {
     public class ExtendedEntityBase<TEntity> : EntityBase where TEntity : class, ITrackable, INotifyPropertyChanged
     {
-        public ChangeTrackingCollection<TEntity> ChangeTracker { get; set; }
+        public ChangeTrackingCollection<TEntity> ChangeTracker { get; set; } =
+            new ChangeTrackingCollection<TEntity>();
 
         protected TEntity Entity { get; set; }
         protected List<ITrackingCollection> RelatedChangeTrackers { get; set; } 
@@ -17,7 +18,9 @@ namespace Demo.ClientChangeTracking
         public void StartTracking()
         {
             // Pass the entity to a change tracker and start tracking changes
-            ChangeTracker = new ChangeTrackingCollection<TEntity>(Entity);
+            ChangeTracker.Tracking = false;
+            ChangeTracker.Add(Entity);
+            ChangeTracker.Tracking = true;
 
             // Start monitoring graph changes
             ChangeTracker.EntityChanged += ChangeTracker_EntityChanged;
